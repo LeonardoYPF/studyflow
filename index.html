@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow — Sistema de Gerenciamento de Estudos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+
+<!-- ===== TOAST ===== -->
+<div id="toast-container"></div>
+
+<!-- ===== TELA 1: LOGIN ===== -->
+<section id="login-view" class="view-section">
+    <div class="login-bg-deco"></div>
+    <div class="login-card">
+        <div class="login-logo">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" rx="10" fill="#4361ee"/>
+                <path d="M10 28L20 12L30 28" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="20" cy="20" r="4" fill="white"/>
+            </svg>
+            <span class="login-logo-text">StudyFlow</span>
+        </div>
+        <h2>Bem-vindo de volta</h2>
+        <p class="login-sub">Organize sua rotina de estudos e conquiste seus objetivos</p>
+        <form id="login-form">
+            <label class="field-label">E-mail</label>
+            <input type="email" id="email" placeholder="seuemail@exemplo.com" required>
+            <label class="field-label">Senha</label>
+            <div class="pwd-wrap">
+                <input type="password" id="password" placeholder="••••••••" required>
+                <button type="button" id="toggle-pwd" aria-label="Mostrar/ocultar senha">
+                    <svg id="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="submit" class="btn-primary btn-full">Entrar</button>
+        </form>
+    </div>
+    <footer class="login-footer">
+        <p>StudyFlow © 2025 — Todos os direitos reservados</p>
+    </footer>
+</section>
+
+<!-- ===== APP PRINCIPAL ===== -->
+<div id="app-view" class="hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" rx="10" fill="#4361ee"/>
+                <path d="M10 28L20 12L30 28" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="20" cy="20" r="4" fill="white"/>
+            </svg>
+            <span class="logo-text">StudyFlow</span>
+        </div>
+
+        <nav id="main-nav">
+            <span class="nav-group-label">Principal</span>
+            <button data-target="dashboard" class="nav-btn active">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </button>
+            <button data-target="tasks" class="nav-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                Metas & Tarefas
+            </button>
+            <button data-target="spaced-rep" class="nav-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Revisão Espaçada
+            </button>
+            <button data-target="pomodoro" class="nav-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Pomodoro
+            </button>
+            <span class="nav-group-label">Ferramentas</span>
+            <button data-target="curiosidades" class="nav-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                Curiosidades
+            </button>
+            <button data-target="progresso" class="nav-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Progresso
+            </button>
+            <button data-target="configuracoes" class="nav-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                Configurações
+            </button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button id="theme-toggle" class="btn-theme">
+                <svg id="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <span id="theme-label">Tema Escuro</span>
+            </button>
+            <button id="logout-btn" class="btn-logout">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Sair
+            </button>
+        </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL -->
+    <div class="main-wrapper">
+
+        <!-- HEADER -->
+        <header class="topbar">
+            <div id="quote-container" class="quote-box">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.293-3.995 5.848h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.293-3.996 5.848h3.983v10h-9.983z"/></svg>
+                <span id="quote-text">Carregando motivação...</span>
+            </div>
+            <div class="topbar-user">
+                <img id="topbar-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=StudyFlow" width="32" height="32" alt="Avatar">
+                <span id="topbar-username">Estudante</span>
+            </div>
+        </header>
+
+        <!-- CONTEÚDO -->
+        <div class="content-area">
+
+            <!-- TELA 2: DASHBOARD -->
+            <div id="dashboard" class="content-section">
+                <div class="page-header">
+                    <h1>Visão Geral</h1>
+                    <p class="page-sub">Acompanhe seu progresso de hoje</p>
+                </div>
+                <div class="grid-cards">
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="background:#e8edff">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4361ee" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                        </div>
+                        <div>
+                            <h3>Tarefas Concluídas</h3>
+                            <span id="stat-tasks">0</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="background:#fff0e8">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f4a261" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div>
+                            <h3>Ciclos Pomodoro</h3>
+                            <span id="stat-pomo">0</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="background:#e8fff4">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2a9d8f" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <div>
+                            <h3>Revisões Agendadas</h3>
+                            <span id="stat-revs">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Avatar Card -->
+                <div class="card avatar-card">
+                    <div class="avatar-left">
+                        <img id="avatar-img" src="https://api.dicebear.com/7.x/bottts/svg?seed=StudyFlow" alt="Avatar" width="90" height="90">
+                    </div>
+                    <div class="avatar-right">
+                        <h3>Seu Avatar</h3>
+                        <p class="page-sub">Personalize com seu nome</p>
+                        <div class="avatar-controls">
+                            <input type="text" id="avatar-seed" placeholder="Digite seu nome...">
+                            <button type="button" id="btn-gen-avatar" class="btn-primary">Gerar</button>
+                            <button type="button" id="btn-save-avatar" class="btn-secondary">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TELA 3: TAREFAS -->
+            <div id="tasks" class="content-section hidden">
+                <div class="page-header">
+                    <h1>Metas & Tarefas</h1>
+                    <p class="page-sub">Gerencie suas atividades de estudo</p>
+                </div>
+                <div class="card">
+                    <form id="task-form" class="input-group">
+                        <input type="text" id="task-input" placeholder="Adicionar nova tarefa..." required>
+                        <select id="task-priority">
+                            <option value="media">Média</option>
+                            <option value="alta">Alta</option>
+                            <option value="baixa">Baixa</option>
+                        </select>
+                        <button type="submit" class="btn-primary">+ Adicionar</button>
+                    </form>
+                </div>
+                <div class="card">
+                    <table id="task-table" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Tarefa</th>
+                                <th>Prioridade</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="task-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TELA 4: REVISÃO ESPAÇADA -->
+            <div id="spaced-rep" class="content-section hidden">
+                <div class="page-header">
+                    <h1>Revisão Espaçada</h1>
+                    <p class="page-sub">Active Recall — agende revisões para fixar o conteúdo</p>
+                </div>
+                <div class="card">
+                    <form id="rev-form" class="input-group">
+                        <input type="text" id="rev-topic" placeholder="Tópico para revisar..." required>
+                        <input type="date" id="rev-date" required>
+                        <select id="rev-materia">
+                            <option value="">Matéria</option>
+                            <option value="Matemática">Matemática</option>
+                            <option value="Português">Português</option>
+                            <option value="Programação">Programação</option>
+                            <option value="História">História</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                        <button type="submit" class="btn-primary">+ Agendar</button>
+                    </form>
+                </div>
+                <ul id="rev-list" class="item-list"></ul>
+            </div>
+
+            <!-- TELA 5: POMODORO -->
+            <div id="pomodoro" class="content-section hidden">
+                <div class="page-header">
+                    <h1>Pomodoro Timer</h1>
+                    <p class="page-sub">Trabalhe em blocos focados de 25 minutos</p>
+                </div>
+                <div class="card timer-card">
+                    <div class="timer-ring">
+                        <svg width="180" height="180" viewBox="0 0 180 180">
+                            <circle cx="90" cy="90" r="80" fill="none" stroke="var(--border)" stroke-width="8"/>
+                            <circle id="timer-ring-progress" cx="90" cy="90" r="80" fill="none" stroke="#4361ee" stroke-width="8"
+                                stroke-dasharray="502" stroke-dashoffset="0"
+                                stroke-linecap="round" transform="rotate(-90 90 90)"/>
+                        </svg>
+                        <div id="timer-display" class="time">25:00</div>
+                    </div>
+                    <div class="timer-mode-tabs">
+                        <button class="mode-tab active" data-mins="25">Foco (25min)</button>
+                        <button class="mode-tab" data-mins="5">Pausa (5min)</button>
+                        <button class="mode-tab" data-mins="15">Pausa Longa (15min)</button>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="btn-start" class="btn-primary">▶ Iniciar</button>
+                        <button id="btn-pause" class="btn-secondary">⏸ Pausar</button>
+                        <button id="btn-reset" class="btn-danger">↺ Resetar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TELA 6: CURIOSIDADES (API Ninjas) -->
+            <div id="curiosidades" class="content-section hidden">
+                <div class="page-header">
+                    <h1>Curiosidades de Estudo</h1>
+                    <p class="page-sub">Fatos sobre ciência e conhecimento via API Ninjas</p>
+                </div>
+                <div class="card">
+                    <div class="fact-controls">
+                        <select id="fact-category">
+                            <option value="education">Educação</option>
+                            <option value="science">Ciência</option>
+                            <option value="math">Matemática</option>
+                            <option value="history">História</option>
+                        </select>
+                        <button id="btn-new-fact" class="btn-primary">Buscar Curiosidade</button>
+                    </div>
+                    <div id="fact-box" class="fact-box">
+                        <p>Clique em "Buscar Curiosidade" para aprender algo novo!</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom:1rem">Curiosidades Salvas</h3>
+                    <ul id="saved-facts-list" class="item-list"></ul>
+                    <p id="no-facts-msg" class="page-sub" style="margin-top:0.5rem">Nenhuma curiosidade salva ainda.</p>
+                </div>
+            </div>
+
+            <!-- TELA 7: PROGRESSO -->
+            <div id="progresso" class="content-section hidden">
+                <div class="page-header">
+                    <h1>Meu Progresso</h1>
+                    <p class="page-sub">Visualize sua evolução ao longo do tempo</p>
+                </div>
+                <div class="grid-cards">
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="background:#e8edff">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4361ee" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        </div>
+                        <div>
+                            <h3>Total de Tarefas</h3>
+                            <span id="prog-total">0</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="background:#e8fff4">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2a9d8f" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </div>
+                        <div>
+                            <h3>Taxa de Conclusão</h3>
+                            <span id="prog-taxa">0%</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="background:#fff0e8">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f4a261" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div>
+                            <h3>Horas de Foco</h3>
+                            <span id="prog-horas">0h</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom:1.2rem">Distribuição de Tarefas por Status</h3>
+                    <div class="progress-bars" id="progress-chart"></div>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom:1rem">Histórico de Sessões Pomodoro</h3>
+                    <table id="pomo-history-table" class="display" style="width:100%">
+                        <thead><tr><th>#</th><th>Sessão</th><th>Duração</th><th>Status</th></tr></thead>
+                        <tbody id="pomo-history-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TELA 8: CONFIGURAÇÕES -->
+            <div id="configuracoes" class="content-section hidden">
+                <div class="page-header">
+                    <h1>Configurações</h1>
+                    <p class="page-sub">Personalize sua experiência no StudyFlow</p>
+                </div>
+                <div class="card config-card">
+                    <h3>Aparência</h3>
+                    <div class="config-row">
+                        <div>
+                            <p class="config-label">Modo Escuro</p>
+                            <p class="page-sub">Alterna entre tema claro e escuro</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="config-dark-toggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card config-card">
+                    <h3>Pomodoro</h3>
+                    <div class="config-row">
+                        <div>
+                            <p class="config-label">Duração do Foco (minutos)</p>
+                            <p class="page-sub">Tempo padrão de cada sessão</p>
+                        </div>
+                        <input type="number" id="config-pomo-mins" value="25" min="1" max="60" style="width:70px">
+                    </div>
+                    <div class="config-row" style="margin-top:1rem">
+                        <div>
+                            <p class="config-label">Duração da Pausa (minutos)</p>
+                        </div>
+                        <input type="number" id="config-break-mins" value="5" min="1" max="30" style="width:70px">
+                    </div>
+                    <button id="btn-save-config" class="btn-primary" style="margin-top:1.5rem">Salvar Configurações</button>
+                </div>
+                <div class="card config-card" style="border: 1px solid var(--danger); background: #fff5f5;">
+                    <h3 style="color:var(--danger)">Zona de Perigo</h3>
+                    <div class="config-row">
+                        <div>
+                            <p class="config-label">Resetar todos os dados</p>
+                            <p class="page-sub">Remove tarefas, revisões e estatísticas</p>
+                        </div>
+                        <button id="btn-reset-data" class="btn-danger">Resetar</button>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- fim content-area -->
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <div class="footer-left">
+                <svg width="16" height="16" viewBox="0 0 40 40" fill="none">
+                    <rect width="40" height="40" rx="10" fill="#4361ee"/>
+                    <path d="M10 28L20 12L30 28" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="20" cy="20" r="4" fill="white"/>
+                </svg>
+                <span>StudyFlow © 2025</span>
+            </div>
+            <div class="footer-center">
+                <span>Combatendo a procrastinação com tecnologia</span>
+            </div>
+            <div class="footer-right">
+                <span id="footer-date"></span>
+            </div>
+        </footer>
+
+    </div><!-- fim main-wrapper -->
+</div><!-- fim app-view -->
+
+<script src="app.js"></script>
+</body>
+</html>

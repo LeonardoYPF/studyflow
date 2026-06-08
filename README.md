@@ -216,9 +216,9 @@ Projeto desenvolvido em grupo para a disciplina de **Desenvolvimento Web**.
 
 | Nome | Função |
 |---|---|
-| *(Adicione o nome do integrante)* | Desenvolvimento Frontend |
-| *(Adicione o nome do integrante)* | Desenvolvimento Frontend |
-| *(Adicione o nome do integrante)* | Design e Documentação |
+| *(Italo)* | Desenvolvimento Frontend |
+| *(Leonardo)* | Desenvolvimento Frontend |
+| *(Italo, Leonardo)* | Design e Documentação |
 
 ---
 

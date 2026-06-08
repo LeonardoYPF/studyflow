@@ -1,5 +1,5 @@
 // =============================================
-//  STUDYFLOW — app.js (refatorado)
+//  STUDYFLOW — app.js
 //  Mantém toda a lógica original +
 //  + API Ninjas (curiosidades)
 //  + Telas: Progresso, Configurações
@@ -7,8 +7,7 @@
 // =============================================
 
 // --- CHAVE API NINJAS ---
-// Cadastre-se grátis em https://api-ninjas.com e substitua abaixo:
-const API_NINJAS_KEY = 'SUA_CHAVE_AQUI';
+const API_NINJAS_KEY = 'ZCnMv8Ib5a0A6aW0igObLadFwqS5joX9enX8Bgxr';
 
 // --- ESTADO GLOBAL ---
 const state = {

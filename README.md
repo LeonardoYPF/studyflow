@@ -168,16 +168,9 @@ O projeto não requer instalação de dependências ou servidor backend. Basta:
    └── README.md
    ```
 
-2. **Configure sua chave da API Ninjas** no arquivo `app.js`:
-   ```js
-   // Linha 9 do app.js
-   const API_NINJAS_KEY = 'SUA_CHAVE_AQUI';
-   ```
-   Cadastro gratuito em: [https://api-ninjas.com](https://api-ninjas.com)
+2. **Abra o `index.html`** diretamente no navegador (duplo clique), ou use a extensão **Live Server** do VS Code para melhor experiência.
 
-3. **Abra o `index.html`** diretamente no navegador (duplo clique), ou use a extensão **Live Server** do VS Code para melhor experiência.
-
-4. **Credenciais de teste:** qualquer e-mail e senha são aceitos (validação visual apenas — MVP).
+3. **Credenciais de teste:** qualquer e-mail e senha são aceitos (validação visual apenas — MVP).
 
 > ⚠️ As APIs externas (AdviceSlip e DiceBear) funcionam sem chave. Apenas a API Ninjas requer cadastro gratuito.
 
